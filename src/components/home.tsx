@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNotification } from "@/components/NotificationProvider";
 import { motion } from "framer-motion";
 import { Search, Eye, Users } from "lucide-react";
 import { useStats } from "@/hooks/useStats";
@@ -58,6 +59,36 @@ const defaultProperties = [
 
 const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
   const stats = useStats();
+  const { showNotification, showRandomNotification } = useNotification();
+
+  useEffect(() => {
+    // Show welcome notification with a delay to ensure app is loaded
+    const welcomeTimer = setTimeout(() => {
+      try {
+        showNotification(
+          "🏠 Welcome to EstateVista! Where we find you a home before your lease expires (hopefully)!",
+          "success",
+          5000,
+        );
+      } catch (error) {
+        console.error("Error showing welcome notification:", error);
+      }
+    }, 2000);
+
+    // Show random notifications periodically
+    const interval = setInterval(() => {
+      try {
+        showRandomNotification(Math.random() > 0.7 ? "success" : "info");
+      } catch (error) {
+        console.error("Error showing random notification:", error);
+      }
+    }, 45000); // Every 45 seconds
+
+    return () => {
+      clearTimeout(welcomeTimer);
+      clearInterval(interval);
+    };
+  }, [showNotification, showRandomNotification]);
 
   return (
     <div className="min-h-screen bg-background">

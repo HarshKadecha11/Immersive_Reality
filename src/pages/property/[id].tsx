@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropertyDetails from "@/components/PropertyDetails";
 import { supabase } from "@/lib/supabase";
+import { Button } from "@/components/ui/button";
 
 const PropertyPage = () => {
   const { id } = useParams<{ id: string }>();

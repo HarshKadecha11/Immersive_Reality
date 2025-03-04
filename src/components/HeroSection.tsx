@@ -88,7 +88,7 @@ const HeroSection = ({
   return (
     <div className="relative w-full h-[600px] bg-gray-100 overflow-hidden">
       {/* Background Slider */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.div
           className="flex h-full"
           animate={{
