@@ -1,6 +1,6 @@
 import { Suspense, useState, useEffect } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
-import { useRoutes, Routes, Route } from "react-router-dom";
+import { useRoutes, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
 import PropertiesPage from "./pages/properties";
 import PropertyPage from "./pages/property/[id]";
@@ -12,9 +12,13 @@ import BlogPage from "./pages/blog";
 import AboutPage from "./pages/about";
 import ContactPage from "./pages/contact";
 import PropertyTourPage from "./pages/property-tour";
+import SupabaseSetupPage from "./pages/supabase-setup";
+import ProfilePage from "./pages/profile";
+import SettingsPage from "./pages/settings";
 import routes from "tempo-routes";
 import { NotificationProvider } from "./components/NotificationProvider";
 import LoadingScreen from "./components/LoadingScreen";
+import { isSupabaseConfigured } from "./lib/supabase";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +48,9 @@ function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/supabase-setup" element={<SupabaseSetupPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             {import.meta.env.VITE_TEMPO === "true" && (
               <Route path="/tempobook/*" />
             )}

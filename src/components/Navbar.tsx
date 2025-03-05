@@ -12,7 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "./AuthModal";
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAuthenticated } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const userAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=default";
@@ -46,7 +46,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <a href="/" className="text-xl font-bold">
-            Estate<span className="text-red-600">Vista</span>
+            Estate<span className="text-green-600">Vista</span>
           </a>
         </div>
 
@@ -58,7 +58,7 @@ const Navbar = () => {
                 <div key={item.label} className="relative group px-3">
                   <a
                     href={item.href}
-                    className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors flex items-center gap-1 py-2"
+                    className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors flex items-center gap-1 py-2"
                   >
                     {item.label}
                     <svg
@@ -81,7 +81,7 @@ const Navbar = () => {
                       <a
                         key={dropdownItem.label}
                         href={dropdownItem.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600"
                       >
                         {dropdownItem.label}
                       </a>
@@ -92,7 +92,7 @@ const Navbar = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2"
+                  className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors px-3 py-2"
                 >
                   {item.label}
                 </a>
@@ -107,7 +107,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors px-3 py-2"
+                className="text-sm font-medium text-gray-600 hover:text-green-600 transition-colors px-3 py-2"
               >
                 {item.label}
               </a>
@@ -121,7 +121,7 @@ const Navbar = () => {
             <span className="mr-1">+</span> Post Property
           </Button>
 
-          {user ? (
+          {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -137,8 +137,16 @@ const Navbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => (window.location.href = "/profile")}
+                >
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => (window.location.href = "/settings")}
+                >
+                  Settings
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={signOut}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -168,7 +176,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="block text-sm font-medium text-gray-700 hover:text-red-600 py-2"
+                className="block text-sm font-medium text-gray-700 hover:text-green-600 py-2"
                 onClick={() => setShowMobileMenu(false)}
               >
                 {item.label}

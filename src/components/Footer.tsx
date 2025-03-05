@@ -46,22 +46,47 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?type=buy"
+                  className="text-gray-400 hover:text-white"
+                >
                   Buy Property
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?type=sell"
+                  className="text-gray-400 hover:text-white"
+                >
                   Sell Property
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?type=rent"
+                  className="text-gray-400 hover:text-white"
+                >
                   Rent Property
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?priceCategory=budget-rent"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Student Rentals
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties?priceCategory=affordable"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Middle Class Properties
+                </a>
+              </li>
+              <li>
+                <a href="/mortgage" className="text-gray-400 hover:text-white">
                   Calculate Mortgage
                 </a>
               </li>
@@ -73,23 +98,67 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Popular Cities</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?city=ahmedabad"
+                  className="text-gray-400 hover:text-white"
+                >
                   Ahmedabad
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?city=surat"
+                  className="text-gray-400 hover:text-white"
+                >
                   Surat
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?city=vadodara"
+                  className="text-gray-400 hover:text-white"
+                >
                   Vadodara
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a
+                  href="/properties?city=rajkot"
+                  className="text-gray-400 hover:text-white"
+                >
                   Rajkot
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties?city=gandhinagar"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Gandhinagar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties?city=bhavnagar"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Bhavnagar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties?city=jamnagar"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Jamnagar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/properties?city=junagadh"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Junagadh
                 </a>
               </li>
             </ul>

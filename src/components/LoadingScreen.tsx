@@ -24,13 +24,13 @@ const LoadingScreen = ({ isLoading, onFinish }: LoadingScreenProps) => {
       setLoadingMessage(getRandomFunnyMessage("loading"));
     }, 3000);
 
-    // Simulate progress faster
+    // Simulate progress slower for better readability
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + Math.random() * 25;
+        const newProgress = prev + Math.random() * 15;
         return newProgress > 100 ? 100 : newProgress;
       });
-    }, 400);
+    }, 800);
 
     return () => {
       clearInterval(messageInterval);
@@ -45,7 +45,7 @@ const LoadingScreen = ({ isLoading, onFinish }: LoadingScreenProps) => {
         if (onFinish) onFinish();
         // Force loading to end even if onFinish isn't provided
         setProgress(0);
-      }, 500);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [progress, isLoading, onFinish]);

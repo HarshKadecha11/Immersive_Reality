@@ -29,31 +29,31 @@ const images = [
   {
     id: "1",
     imageUrl:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
     title: "Luxury Villa in Ahmedabad",
   },
   {
     id: "2",
     imageUrl:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
     title: "Modern Apartment in Surat",
   },
   {
     id: "3",
     imageUrl:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
     title: "Penthouse in Vadodara",
   },
   {
     id: "4",
     imageUrl:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
     title: "Luxury Home",
   },
   {
     id: "5",
     imageUrl:
-      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1600",
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
     title: "Modern Villa",
   },
 ];
@@ -63,19 +63,19 @@ const HeroSection = ({
     {
       id: "1",
       imageUrl:
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
       title: "Luxury Villa in Ahmedabad",
     },
     {
       id: "2",
       imageUrl:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       title: "Modern Apartment in Surat",
     },
     {
       id: "3",
       imageUrl:
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
       title: "Penthouse in Vadodara",
     },
   ],
@@ -140,6 +140,13 @@ const HeroSection = ({
                 <SelectItem value="ahmedabad">Ahmedabad</SelectItem>
                 <SelectItem value="surat">Surat</SelectItem>
                 <SelectItem value="vadodara">Vadodara</SelectItem>
+                <SelectItem value="rajkot">Rajkot</SelectItem>
+                <SelectItem value="bhavnagar">Bhavnagar</SelectItem>
+                <SelectItem value="jamnagar">Jamnagar</SelectItem>
+                <SelectItem value="junagadh">Junagadh</SelectItem>
+                <SelectItem value="gandhinagar">Gandhinagar</SelectItem>
+                <SelectItem value="anand">Anand</SelectItem>
+                <SelectItem value="navsari">Navsari</SelectItem>
               </SelectContent>
             </Select>
 
@@ -149,9 +156,23 @@ const HeroSection = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Properties</SelectItem>
-                <SelectItem value="house">House</SelectItem>
-                <SelectItem value="apartment">Apartment</SelectItem>
-                <SelectItem value="villa">Villa</SelectItem>
+                <SelectItem value="Villa">Villa</SelectItem>
+                <SelectItem value="Apartment">Apartment</SelectItem>
+                <SelectItem value="Penthouse">Penthouse</SelectItem>
+                <SelectItem value="Bungalow">Bungalow</SelectItem>
+                <SelectItem value="Farmhouse">Farmhouse</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select defaultValue="all">
+              <SelectTrigger className="w-[200px] bg-white">
+                <SelectValue placeholder="Budget" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Price Ranges</SelectItem>
+                <SelectItem value="student">Student Rentals</SelectItem>
+                <SelectItem value="affordable">Middle Class</SelectItem>
+                <SelectItem value="premium">Premium</SelectItem>
               </SelectContent>
             </Select>
 
@@ -163,7 +184,11 @@ const HeroSection = ({
               />
             </div>
 
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
+            <Button
+              size="lg"
+              className="bg-green-600 hover:bg-green-700"
+              onClick={() => (window.location.href = "/properties")}
+            >
               <Search className="mr-2 h-4 w-4" />
               Search
             </Button>
@@ -179,7 +204,7 @@ const HeroSection = ({
           >
             <Card className="bg-white/10 backdrop-blur-lg border-0">
               <CardContent className="flex items-center p-6">
-                <Home className="h-8 w-8 mr-4 text-primary" />
+                <Home className="h-8 w-8 mr-4 text-green-600" />
                 <div>
                   <p className="text-sm">Total Properties</p>
                   <motion.p
@@ -203,7 +228,7 @@ const HeroSection = ({
           >
             <Card className="bg-white/10 backdrop-blur-lg border-0">
               <CardContent className="flex items-center p-6">
-                <TrendingUp className="h-8 w-8 mr-4 text-primary" />
+                <TrendingUp className="h-8 w-8 mr-4 text-green-600" />
                 <div>
                   <p className="text-sm">Average Price</p>
                   <p className="text-2xl font-bold">
@@ -221,7 +246,7 @@ const HeroSection = ({
           >
             <Card className="bg-white/10 backdrop-blur-lg border-0">
               <CardContent className="flex items-center p-6">
-                <Users className="h-8 w-8 mr-4 text-primary" />
+                <Users className="h-8 w-8 mr-4 text-green-600" />
                 <div>
                   <p className="text-sm">Active Users</p>
                   <motion.p

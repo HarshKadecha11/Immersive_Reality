@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNotification } from "@/components/NotificationProvider";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -10,6 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
+import { Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 interface MessageAgentModalProps {
   isOpen: boolean;
@@ -28,24 +32,50 @@ const MessageAgentModal = ({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { showNotification } = useNotification();
+  const { user, isAuthenticated } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send the message to the agent
-    console.log({
-      agentName,
-      propertyTitle,
-      name,
-      email,
-      phone,
-      message,
-    });
+    setIsLoading(true);
 
-    // Show success message
-    alert(
-      `Your message has been sent to ${agentName}. They will contact you shortly.`,
-    );
-    onClose();
+    if (!isAuthenticated || !user) {
+      showNotification("Please login to message an agent", "error");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      // Save message to database
+      const agentId = agentName.toLowerCase().replace(/\s+/g, "-");
+      const propertyId = propertyTitle
+        ? propertyTitle.toLowerCase().replace(/\s+/g, "-")
+        : null;
+
+      const { error } = await supabase.from("agent_contacts").insert({
+        user_id: user.id,
+        agent_id: agentId,
+        property_id: propertyId,
+        message: message,
+        status: "sent",
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      if (error) throw error;
+
+      showNotification(
+        `Message sent to ${agentName}! They will contact you soon.`,
+        "success",
+      );
+      onClose();
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      showNotification(error.message || "Failed to send message", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -106,7 +136,16 @@ const MessageAgentModal = ({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit">Send Message</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                "Send Message"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

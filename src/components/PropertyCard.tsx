@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -9,8 +9,9 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Button } from "./ui/button";
+import SavePropertyButton from "./SavePropertyButton";
 import { Badge } from "./ui/badge";
-import { Eye, Home, MapPin, Maximize2 } from "lucide-react";
+import { Eye, Home, MapPin, Maximize2, Bookmark } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -37,7 +38,7 @@ const PropertyCard = ({
   bedrooms = 4,
   bathrooms = 3,
   sqft = 2500,
-  imageUrl = "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&dpr=2&q=80",
+  imageUrl = "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
   onViewTour = () => console.log("View tour clicked"),
   onViewDetails = () => console.log("View details clicked"),
 }: PropertyCardProps) => {
@@ -55,7 +56,9 @@ const PropertyCard = ({
               className="object-cover w-full h-full hover:scale-110 transition-transform duration-500"
             />
             <Badge className="absolute top-4 right-4 bg-primary/90 hover:bg-primary">
-              ₹{(price / 10000000).toFixed(2)} Cr
+              {price >= 100000
+                ? `₹${(price / 10000000).toFixed(2)} Cr`
+                : `₹${price.toLocaleString()} /month`}
             </Badge>
           </div>
         </div>
@@ -85,7 +88,7 @@ const PropertyCard = ({
           </div>
         </CardContent>
 
-        <CardFooter className="grid grid-cols-2 gap-2">
+        <CardFooter className="grid grid-cols-3 gap-2">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -122,8 +125,13 @@ const PropertyCard = ({
             </Tooltip>
           </TooltipProvider>
 
+          <SavePropertyButton
+            propertyId={title.toLowerCase().replace(/\s+/g, "-")}
+            size="sm"
+          />
+
           <Button
-            className="w-full"
+            className="w-full col-span-2"
             onClick={() => {
               onViewDetails();
               // Import dynamically to avoid circular dependencies

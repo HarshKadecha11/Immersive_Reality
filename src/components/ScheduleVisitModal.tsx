@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNotification } from "@/components/NotificationProvider";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -13,7 +15,8 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { CalendarIcon, Clock } from "lucide-react";
+import { CalendarIcon, Clock, Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 interface ScheduleVisitModalProps {
   isOpen: boolean;
@@ -32,6 +35,8 @@ const ScheduleVisitModal = ({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { showNotification } = useNotification();
 
   const timeSlots = [
     "10:00 AM",
@@ -44,22 +49,55 @@ const ScheduleVisitModal = ({
     "5:00 PM",
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, this would send the data to the server
-    console.log({
-      propertyTitle,
-      date,
-      timeSlot,
-      name,
-      email,
-      phone,
-      message,
-    });
+  const { user, isAuthenticated } = useAuth();
 
-    // Show success message
-    alert("Visit scheduled successfully! We'll contact you to confirm.");
-    onClose();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (!isAuthenticated || !user) {
+      showNotification("Please login to schedule a visit", "error");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!date || !timeSlot) {
+      showNotification("Please select a date and time", "error");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      // Save visit to database
+      const propertyId = propertyTitle.toLowerCase().replace(/\s+/g, "-");
+      const formData = {
+        date: format(date, "yyyy-MM-dd"),
+        time: timeSlot,
+        notes: message,
+      };
+
+      const { error } = await supabase.from("property_visits").insert({
+        user_id: user.id,
+        property_id: propertyId,
+        visit_date: formData.date,
+        visit_time: formData.time,
+        notes: formData.notes,
+        status: "scheduled",
+      });
+
+      if (error) throw error;
+
+      showNotification(
+        `Visit scheduled for ${format(date, "PPP")} at ${timeSlot}!`,
+        "success",
+      );
+      onClose();
+    } catch (error: any) {
+      console.error("Error scheduling visit:", error);
+      showNotification(error.message || "Failed to schedule visit", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -177,7 +215,16 @@ const ScheduleVisitModal = ({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit">Schedule Visit</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Scheduling...
+                </>
+              ) : (
+                "Schedule Visit"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

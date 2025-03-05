@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -25,6 +25,8 @@ import PropertyMap from "./PropertyMap";
 import ScheduleVisitModal from "./ScheduleVisitModal";
 import MessageAgentModal from "./MessageAgentModal";
 import ChatBot from "./ChatBot";
+import SavePropertyButton from "./SavePropertyButton";
+import BookVisitButton from "./BookVisitButton";
 
 interface PropertyDetailsProps {
   id?: string;
@@ -96,10 +98,10 @@ const PropertyDetails = ({
   status = "For Sale",
   financingOptions = defaultFinancingOptions,
   images = [
-    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&dpr=2&q=80",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&dpr=2&q=80",
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&dpr=2&q=80",
-    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&dpr=2&q=80",
+    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
   ],
 }: PropertyDetailsProps) => {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -118,10 +120,28 @@ const PropertyDetails = ({
             </p>
           </div>
           <div className="flex flex-col items-end">
-            <p className="text-3xl font-bold text-primary">
-              ₹{(price / 10000000).toFixed(2)} Cr
+            <p className="text-3xl font-bold text-green-600">
+              {price >= 100000
+                ? `₹${(price / 10000000).toFixed(2)} Cr`
+                : `₹${price.toLocaleString()} /month`}
             </p>
             <Badge className="mt-1">{status}</Badge>
+            {price < 25000 && status === "For Rent" && (
+              <Badge
+                variant="outline"
+                className="mt-1 bg-blue-100 text-blue-800 border-blue-200"
+              >
+                Student Friendly
+              </Badge>
+            )}
+            {price <= 8000000 && price >= 100000 && (
+              <Badge
+                variant="outline"
+                className="mt-1 bg-green-100 text-green-800 border-green-200"
+              >
+                Middle Class
+              </Badge>
+            )}
           </div>
         </div>
 
@@ -171,28 +191,28 @@ const PropertyDetails = ({
                     </h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                       <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
-                        <Building className="h-6 w-6 mb-2 text-primary" />
+                        <Building className="h-6 w-6 mb-2 text-green-600" />
                         <span className="text-sm text-muted-foreground">
                           Type
                         </span>
                         <span className="font-medium">{type}</span>
                       </div>
                       <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
-                        <Bed className="h-6 w-6 mb-2 text-primary" />
+                        <Bed className="h-6 w-6 mb-2 text-green-600" />
                         <span className="text-sm text-muted-foreground">
                           Bedrooms
                         </span>
                         <span className="font-medium">{bedrooms}</span>
                       </div>
                       <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
-                        <Bath className="h-6 w-6 mb-2 text-primary" />
+                        <Bath className="h-6 w-6 mb-2 text-green-600" />
                         <span className="text-sm text-muted-foreground">
                           Bathrooms
                         </span>
                         <span className="font-medium">{bathrooms}</span>
                       </div>
                       <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
-                        <Maximize2 className="h-6 w-6 mb-2 text-primary" />
+                        <Maximize2 className="h-6 w-6 mb-2 text-green-600" />
                         <span className="text-sm text-muted-foreground">
                           Area
                         </span>
@@ -217,15 +237,15 @@ const PropertyDetails = ({
                           key={index}
                           className="flex items-center p-3 border rounded-lg"
                         >
-                          <div className="p-2 bg-primary/10 rounded-full mr-3">
+                          <div className="p-2 bg-green-100 rounded-full mr-3">
                             {facility.type === "hospital" ? (
-                              <Building className="h-5 w-5 text-primary" />
+                              <Building className="h-5 w-5 text-green-600" />
                             ) : facility.type === "school" ? (
-                              <School className="h-5 w-5 text-primary" />
+                              <School className="h-5 w-5 text-green-600" />
                             ) : facility.type === "transportation" ? (
-                              <Car className="h-5 w-5 text-primary" />
+                              <Car className="h-5 w-5 text-green-600" />
                             ) : (
-                              <Home className="h-5 w-5 text-primary" />
+                              <Home className="h-5 w-5 text-green-600" />
                             )}
                           </div>
                           <div>
@@ -251,13 +271,13 @@ const PropertyDetails = ({
                           key={index}
                           className="flex items-center p-3 border rounded-lg"
                         >
-                          <div className="p-2 bg-primary/10 rounded-full mr-3">
+                          <div className="p-2 bg-green-100 rounded-full mr-3">
                             {amenity.includes("Pool") ? (
-                              <Waves className="h-5 w-5 text-primary" />
+                              <Waves className="h-5 w-5 text-green-600" />
                             ) : amenity.includes("Parking") ? (
-                              <Car className="h-5 w-5 text-primary" />
+                              <Car className="h-5 w-5 text-green-600" />
                             ) : (
-                              <Check className="h-5 w-5 text-primary" />
+                              <Check className="h-5 w-5 text-green-600" />
                             )}
                           </div>
                           <p className="font-medium">{amenity}</p>
@@ -295,7 +315,7 @@ const PropertyDetails = ({
                       {financingOptions.map((option, index) => (
                         <div
                           key={index}
-                          className="p-4 border rounded-lg hover:border-primary transition-colors"
+                          className="p-4 border rounded-lg hover:border-green-600 transition-colors"
                         >
                           <h3 className="text-lg font-semibold">
                             {option.name}
@@ -349,11 +369,11 @@ const PropertyDetails = ({
 
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <Phone className="h-4 w-4 mr-2 text-green-600" />
                     <p>{agent.phone}</p>
                   </div>
                   <div className="flex items-center">
-                    <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <User className="h-4 w-4 mr-2 text-green-600" />
                     <p>{agent.email}</p>
                   </div>
                 </div>
@@ -374,6 +394,11 @@ const PropertyDetails = ({
                   >
                     Message Agent
                   </Button>
+                  <SavePropertyButton
+                    propertyId={id}
+                    variant="outline"
+                    className="w-full"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -383,18 +408,18 @@ const PropertyDetails = ({
               <CardContent className="p-6">
                 <h2 className="text-xl font-semibold mb-4">Availability</h2>
                 <div className="flex items-center mb-4">
-                  <Calendar className="h-5 w-5 mr-2 text-primary" />
+                  <Calendar className="h-5 w-5 mr-2 text-green-600" />
                   <div>
                     <p className="font-medium">Status</p>
                     <p className="text-muted-foreground">{status}</p>
                   </div>
                 </div>
-                <Button
+                <BookVisitButton
+                  propertyId={id}
+                  propertyTitle={title}
+                  onOpenScheduleModal={() => setShowScheduleModal(true)}
                   className="w-full"
-                  onClick={() => setShowScheduleModal(true)}
-                >
-                  Schedule a Visit
-                </Button>
+                />
               </CardContent>
             </Card>
 
@@ -409,7 +434,7 @@ const PropertyDetails = ({
                     <div key={item} className="flex gap-3">
                       <div className="h-20 w-20 rounded-md overflow-hidden flex-shrink-0">
                         <img
-                          src={`https://images.unsplash.com/photo-160058515434${item}-be6161a56a0c?w=200&dpr=2&q=80`}
+                          src={`https://images.unsplash.com/photo-160058515434${item}-be6161a56a0c?w=200&q=80`}
                           alt="Similar property"
                           className="h-full w-full object-cover"
                         />
