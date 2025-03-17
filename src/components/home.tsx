@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNotification } from "@/components/NotificationProvider";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   Eye,
@@ -18,6 +18,7 @@ import AnimatedGradientBackground from "./ui/animated-gradient-background";
 import FeatureCard from "./FeatureCard";
 import StatsCard from "./StatsCard";
 import { Button } from "./ui/button";
+import { useInView } from "framer-motion";
 
 interface HomeProps {
   initialProperties?: Array<{
@@ -71,6 +72,7 @@ const defaultProperties = [
 const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
   const stats = useStats();
   const { showNotification, showRandomNotification } = useNotification();
+  const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Show welcome notification with a delay to ensure app is loaded
@@ -108,15 +110,15 @@ const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
       <motion.main
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* Hero Section */}
         <section className="pt-20 pb-16">
           <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
                 The <span className="text-green-600">ultimate</span> <br />
@@ -137,9 +139,9 @@ const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               className="relative"
             >
               <img
@@ -190,7 +192,32 @@ const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
         </section>
 
         {/* Strategy Section */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-gray-50 relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 z-0">
+            {[...Array(10)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-green-500/10"
+                style={{
+                  width: `${Math.random() * 200 + 50}px`,
+                  height: `${Math.random() * 200 + 50}px`,
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  x: [0, Math.random() * 50 - 25],
+                  y: [0, Math.random() * 50 - 25],
+                }}
+                transition={{
+                  duration: 5 + Math.random() * 5,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <motion.div
@@ -250,7 +277,29 @@ const Home = ({ initialProperties = defaultProperties }: HomeProps) => {
         </section>
 
         {/* Success Metrics Section */}
-        <section className="py-20">
+        <section className="py-20 relative">
+          {/* Animated dots background */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            {[...Array(50)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 md:w-2 md:h-2 rounded-full bg-green-500/20"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.3, 0.7, 0.3],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
           <div className="container mx-auto px-4 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

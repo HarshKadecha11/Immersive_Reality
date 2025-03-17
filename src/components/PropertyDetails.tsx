@@ -18,6 +18,7 @@ import {
   School,
   User,
   Waves,
+  Eye,
 } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -90,10 +91,10 @@ const PropertyDetails = ({
   amenities = defaultAmenities,
   nearbyFacilities = defaultNearbyFacilities,
   agent = {
-    name: "Rahul Sharma",
-    phone: "+91 98765 43210",
-    email: "rahul@estatevista.com",
-    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=rahul",
+    name: "Harsh Kadecha",
+    phone: "+91 78638 20635",
+    email: "2022002415.gcet@cvmu.edu.in",
+    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=harsh",
   },
   status = "For Sale",
   financingOptions = defaultFinancingOptions,
@@ -146,7 +147,12 @@ const PropertyDetails = ({
         </div>
 
         {/* Property Images */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="md:col-span-2 row-span-2">
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
               <img
@@ -168,10 +174,15 @@ const PropertyDetails = ({
               />
             </div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Property Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           {/* Main Content */}
           <div className="lg:col-span-2">
             <Tabs defaultValue="details">
@@ -182,7 +193,7 @@ const PropertyDetails = ({
                 <TabsTrigger value="financing">Financing</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="details" className="space-y-6">
+              <TabsContent value="details" key="details" className="space-y-6">
                 {/* Property Type and Details */}
                 <Card>
                   <CardContent className="p-6">
@@ -261,7 +272,7 @@ const PropertyDetails = ({
                 </Card>
               </TabsContent>
 
-              <TabsContent value="amenities">
+              <TabsContent value="amenities" key="amenities">
                 <Card>
                   <CardContent className="p-6">
                     <h2 className="text-xl font-semibold mb-4">Amenities</h2>
@@ -288,7 +299,7 @@ const PropertyDetails = ({
                 </Card>
               </TabsContent>
 
-              <TabsContent value="location">
+              <TabsContent value="location" key="location">
                 <Card>
                   <CardContent className="p-6">
                     <h2 className="text-xl font-semibold mb-4">Location</h2>
@@ -305,7 +316,7 @@ const PropertyDetails = ({
                 </Card>
               </TabsContent>
 
-              <TabsContent value="financing">
+              <TabsContent value="financing" key="financing">
                 <Card>
                   <CardContent className="p-6">
                     <h2 className="text-xl font-semibold mb-4">
@@ -394,6 +405,16 @@ const PropertyDetails = ({
                   >
                     Message Agent
                   </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full mt-2"
+                    onClick={() =>
+                      (window.location.href = `/property-tour?id=${id}`)
+                    }
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    View 360° Tour
+                  </Button>
                   <SavePropertyButton
                     propertyId={id}
                     variant="outline"
@@ -445,7 +466,7 @@ const PropertyDetails = ({
                           {item === 1 ? "Surat" : "Vadodara"}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          ₹{(item === 1 ? 1.8 : 2.5).toFixed(1)} Cr
+                          ₹{(item === 1 ? 1.8 : 2.5).toFixed(1)}L
                         </p>
                         <div className="flex items-center text-xs text-muted-foreground mt-1">
                           <span className="flex items-center mr-2">
@@ -462,7 +483,7 @@ const PropertyDetails = ({
               </CardContent>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <Footer />

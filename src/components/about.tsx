@@ -1,9 +1,9 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 import { Linkedin } from "lucide-react";
 
 const AboutPage = () => {

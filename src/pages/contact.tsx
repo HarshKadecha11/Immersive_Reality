@@ -16,22 +16,22 @@ const ContactPage = () => {
     {
       city: "Ahmedabad",
       address: "123 Business Hub, Bodakdev, Ahmedabad, Gujarat 380054",
-      phone: "+91 98765 43210",
-      email: "ahmedabad@estatevista.com",
+      phone: "+91 78638 20635",
+      email: "2022002415.gcet@cvmu.edu.in",
       hours: "Mon-Sat: 9:00 AM - 6:00 PM",
     },
     {
       city: "Surat",
       address: "456 Diamond Plaza, Vesu, Surat, Gujarat 395007",
-      phone: "+91 98765 43211",
-      email: "surat@estatevista.com",
+      phone: "+91 83201 00603",
+      email: "2022002431.gcet@cvmu.edu.in",
       hours: "Mon-Sat: 9:00 AM - 6:00 PM",
     },
     {
       city: "Vadodara",
       address: "789 Business Center, Alkapuri, Vadodara, Gujarat 390007",
-      phone: "+91 98765 43212",
-      email: "vadodara@estatevista.com",
+      phone: "+91 78638 20635",
+      email: "2022002415.gcet@cvmu.edu.in",
       hours: "Mon-Sat: 9:00 AM - 6:00 PM",
     },
   ];
@@ -190,8 +190,8 @@ const ContactPage = () => {
                     <Phone className="h-5 w-5 text-primary mr-3 mt-0.5" />
                     <div>
                       <p className="font-medium">Phone</p>
-                      <p className="text-muted-foreground">+91 98765 43210</p>
-                      <p className="text-muted-foreground">+91 98765 43211</p>
+                      <p className="text-muted-foreground">+91 78638 20635</p>
+                      <p className="text-muted-foreground">+91 83201 00603</p>
                     </div>
                   </div>
 
@@ -200,10 +200,10 @@ const ContactPage = () => {
                     <div>
                       <p className="font-medium">Email</p>
                       <p className="text-muted-foreground">
-                        contact@estatevista.com
+                        2022002415.gcet@cvmu.edu.in
                       </p>
                       <p className="text-muted-foreground">
-                        support@estatevista.com
+                        2022002431.gcet@cvmu.edu.in
                       </p>
                     </div>
                   </div>

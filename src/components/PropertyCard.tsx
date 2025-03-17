@@ -46,8 +46,11 @@ const PropertyCard = ({
     <motion.div
       whileHover={{ y: -10 }}
       transition={{ type: "spring", stiffness: 300 }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
     >
-      <Card className="w-[380px] bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <Card className="w-[380px] bg-white/90 backdrop-blur-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-green-100">
         <div className="relative">
           <div className="aspect-[4/3] relative overflow-hidden">
             <img
@@ -55,11 +58,21 @@ const PropertyCard = ({
               alt={title}
               className="object-cover w-full h-full hover:scale-110 transition-transform duration-500"
             />
-            <Badge className="absolute top-4 right-4 bg-primary/90 hover:bg-primary">
-              {price >= 100000
-                ? `₹${(price / 10000000).toFixed(2)} Cr`
-                : `₹${price.toLocaleString()} /month`}
-            </Badge>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Badge className="absolute top-4 right-4 bg-primary/90 hover:bg-primary">
+                {price >= 100000
+                  ? `₹${(price / 10000000).toFixed(2)} Cr`
+                  : `₹${price.toLocaleString()} /month`}
+              </Badge>
+            </motion.div>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"
+              whileHover={{ opacity: 1 }}
+            />
           </div>
         </div>
 
@@ -92,32 +105,23 @@ const PropertyCard = ({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => {
-                    onViewTour();
-                    // Import dynamically to avoid circular dependencies
-                    import("@/components/NotificationProvider").then(
-                      (module) => {
-                        const { useNotification } = module;
-                        try {
-                          const { showNotification } = useNotification();
-                          showNotification(
-                            "🕶️ Check out our new Surat property in 360°! Experience virtual reality without the headache!",
-                            "info",
-                            4000,
-                          );
-                        } catch (e) {
-                          console.log("Notification context not available");
-                        }
-                      },
-                    );
-                  }}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Eye className="mr-2 h-4 w-4" />
-                  360° Tour
-                </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      onViewTour();
+                      // Redirect to VR tour page with this property
+                      window.location.href = `/property-tour?id=${title.toLowerCase().replace(/\s+/g, "-")}`;
+                    }}
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    360° Tour
+                  </Button>
+                </motion.div>
               </TooltipTrigger>
               <TooltipContent>
                 <p>View 360° virtual tour</p>
@@ -125,33 +129,41 @@ const PropertyCard = ({
             </Tooltip>
           </TooltipProvider>
 
-          <SavePropertyButton
-            propertyId={title.toLowerCase().replace(/\s+/g, "-")}
-            size="sm"
-          />
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <SavePropertyButton
+              propertyId={title.toLowerCase().replace(/\s+/g, "-")}
+              size="sm"
+            />
+          </motion.div>
 
-          <Button
-            className="w-full col-span-2"
-            onClick={() => {
-              onViewDetails();
-              // Import dynamically to avoid circular dependencies
-              import("@/components/NotificationProvider").then((module) => {
-                const { useNotification } = module;
-                try {
-                  const { showNotification } = useNotification();
-                  showNotification(
-                    "🔍 Checking if this property has enough closet space for your emotional baggage...",
-                    "info",
-                    4000,
-                  );
-                } catch (e) {
-                  console.log("Notification context not available");
-                }
-              });
-            }}
+          <motion.div
+            className="col-span-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            View Details
-          </Button>
+            <Button
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+              onClick={() => {
+                onViewDetails();
+                // Import dynamically to avoid circular dependencies
+                import("@/components/NotificationProvider").then((module) => {
+                  const { useNotification } = module;
+                  try {
+                    const { showNotification } = useNotification();
+                    showNotification(
+                      "🔍 Checking if this property has enough closet space for your emotional baggage...",
+                      "info",
+                      4000,
+                    );
+                  } catch (e) {
+                    console.log("Notification context not available");
+                  }
+                });
+              }}
+            >
+              View Details
+            </Button>
+          </motion.div>
         </CardFooter>
       </Card>
     </motion.div>

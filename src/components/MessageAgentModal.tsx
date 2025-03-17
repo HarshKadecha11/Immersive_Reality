@@ -25,7 +25,7 @@ interface MessageAgentModalProps {
 const MessageAgentModal = ({
   isOpen,
   onClose,
-  agentName = "Agent",
+  agentName = "Harsh Kadecha",
   propertyTitle = "Property",
 }: MessageAgentModalProps) => {
   const [name, setName] = useState("");

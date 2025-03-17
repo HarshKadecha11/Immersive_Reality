@@ -95,10 +95,10 @@ const HeroSection = ({
             x: ["-20%", "-80%"],
           }}
           transition={{
-            duration: 30,
+            duration: 60,
             repeat: Infinity,
             repeatType: "reverse",
-            ease: "linear",
+            ease: "easeInOut",
           }}
         >
           {images.map((property) => (
@@ -117,8 +117,9 @@ const HeroSection = ({
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-white">
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-5xl font-bold text-center mb-6"
         >
           Discover Your Dream Property in Gujarat
@@ -126,9 +127,9 @@ const HeroSection = ({
 
         {/* Search Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-lg p-6 mb-12"
         >
           <div className="flex flex-wrap gap-4">

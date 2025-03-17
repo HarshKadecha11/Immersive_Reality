@@ -74,9 +74,15 @@ const AgentContactsList = () => {
               ...item,
               agent: {
                 id: item.agent_id,
-                name: "Agent " + item.agent_id.substring(0, 5),
-                email: `agent${item.agent_id.substring(0, 5)}@estatevista.com`,
-                phone: "+91 98765 43210",
+                name: item.agent_id.includes("harsh")
+                  ? "Harsh Kadecha"
+                  : "Abhay Kunpara",
+                email: item.agent_id.includes("harsh")
+                  ? "2022002415.gcet@cvmu.edu.in"
+                  : "2022002431.gcet@cvmu.edu.in",
+                phone: item.agent_id.includes("harsh")
+                  ? "+91 78638 20635"
+                  : "+91 83201 00603",
                 photo: `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.agent_id}`,
               },
               property: item.property_id
